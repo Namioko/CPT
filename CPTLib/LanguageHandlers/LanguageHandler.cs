@@ -1,14 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Runtime.Remoting;
-using System.Security;
-using System.Security.Permissions;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace CPTLib.LanguageHandlers
+﻿namespace CPTLib.LanguageHandlers
 {
     public abstract class LanguageHandler
     {

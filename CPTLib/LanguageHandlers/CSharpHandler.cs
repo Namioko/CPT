@@ -117,13 +117,11 @@ namespace CPTLib.LanguageHandlers
             double tempUsedTime = 0;
             double tempUsedMemory = 0;
             var assemblyFileName = Path.GetDirectoryName(inputFilePath).Replace("App_Data", @"bin\CPTLib.dll");
-            //var assemblyFileName = GetType().Assembly.Location; 
 
             try
             {
                 PermissionSet ps = new PermissionSet(PermissionState.None);
                 ps.AddPermission(new UIPermission(PermissionState.Unrestricted));
-                ps.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.RestrictedMemberAccess));
                 ps.AddPermission(new SecurityPermission(SecurityPermissionFlag.Execution));
                 ps.AddPermission(new SecurityPermission(SecurityPermissionFlag.UnmanagedCode));
                 ps.AddPermission(new FileIOPermission(

@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
 using CPT;
 
 [assembly: OwinStartup(typeof(Startup))]
