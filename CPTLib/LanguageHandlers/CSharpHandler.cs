@@ -227,29 +227,28 @@ namespace CPTLib.LanguageHandlers
             {
                 if (timeLimit <= sandbox.MonitoringTotalProcessorTime.TotalMilliseconds / 60)
                 {
-                    usedTime = sandbox.MonitoringTotalProcessorTime.TotalMilliseconds / 60;
-                    usedMemory = (double)AppDomain.MonitoringSurvivedProcessMemorySize / (1024 * 1024);
-                    stderr += "Time limit exceeded";
-                    hasLimitExceptions = true;
-                    AppDomain.Unload(sandbox);
-                    GC.Collect();
-                    return;
+                    ThrowLimitException(sandbox, ref usedTime, ref usedMemory, ref stderr, ref hasLimitExceptions, "Time limit exceeded");
                 }
 
                 if (memoryLimit != 0 && memoryLimit <= (double)AppDomain.MonitoringSurvivedProcessMemorySize / (1024 * 1024))
                 {
-                    usedTime = sandbox.MonitoringTotalProcessorTime.TotalMilliseconds / 60;
-                    usedMemory = (double)AppDomain.MonitoringSurvivedProcessMemorySize / (1024 * 1024);
-                    stderr += "Memory limit exceeded";
-                    hasLimitExceptions = true;
-                    AppDomain.Unload(sandbox);
-                    GC.Collect();
-                    return;
+                    ThrowLimitException(sandbox, ref usedTime, ref usedMemory, ref stderr, ref hasLimitExceptions, "Memory limit exceeded");
                 }
             }
             
             usedTime = sandbox.MonitoringTotalProcessorTime.TotalMilliseconds / 60;
             usedMemory = (double)AppDomain.MonitoringSurvivedProcessMemorySize / (1024 * 1024);
+        }
+
+        private void ThrowLimitException(AppDomain sandbox, ref double usedTime, ref double usedMemory, ref string stderr, ref bool hasLimitExceptions, string errorMessgage)
+        {
+            usedTime = sandbox.MonitoringTotalProcessorTime.TotalMilliseconds / 60;
+            usedMemory = (double)AppDomain.MonitoringSurvivedProcessMemorySize / (1024 * 1024);
+            stderr += errorMessgage;
+            hasLimitExceptions = true;
+            AppDomain.Unload(sandbox);
+            GC.Collect();
+            return;
         }
     }
 }

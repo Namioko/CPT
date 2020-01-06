@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.Remoting;
+using System.Security;
+using System.Security.Permissions;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -262,5 +265,167 @@ namespace CPTLib.LanguageHandlers
                 hasExited = true;
             }
         }
+
+        /*public override bool Execute(string executableFilePath, string inputFilePath, ref string output, ref string errors, int timeLimit,
+            int memoryLimit, ref double usedTime, ref double usedMemory, bool isChecker, string inputTestFilePath = "", string outputTestFilePath = "")
+        {
+            if (timeLimit == 0)
+            {
+                timeLimit = 120; //2 mins
+            }
+
+            if (!File.Exists(executableFilePath))
+            {
+                errors += "If you see this message, please contact administrator (ExErr1)";
+                return false;
+            }
+
+            if (!File.Exists(inputFilePath))
+            {
+                errors += "If you see this message, please contact administrator (ExErr2)";
+                return false;
+            }
+
+            bool hasExited = false;
+            bool hasLimitExceptions = false;
+            int exitCode = 0;
+            string stdout = "", stderr = "";
+            string limitStderr = "";
+            double tempUsedTime = 0;
+            double tempUsedMemory = 0;
+            var assemblyFileName = Path.GetDirectoryName(inputFilePath).Replace("App_Data", @"bin\CPTLib.dll");
+
+            try
+            {
+                PermissionSet ps = new PermissionSet(PermissionState.None);
+                ps.AddPermission(new UIPermission(PermissionState.Unrestricted));
+                ps.AddPermission(new SecurityPermission(SecurityPermissionFlag.Execution));
+                ps.AddPermission(new SecurityPermission(SecurityPermissionFlag.UnmanagedCode));
+                ps.AddPermission(new FileIOPermission(
+                    FileIOPermissionAccess.PathDiscovery | FileIOPermissionAccess.Read, assemblyFileName));
+                ps.AddPermission(new FileIOPermission(FileIOPermissionAccess.PathDiscovery | FileIOPermissionAccess.Read, executableFilePath));
+                ps.AddPermission(new FileIOPermission(FileIOPermissionAccess.Read, inputFilePath));
+                if (isChecker)
+                {
+                    ps.AddPermission(new FileIOPermission(FileIOPermissionAccess.Read, inputTestFilePath));
+                    ps.AddPermission(new FileIOPermission(FileIOPermissionAccess.Read, outputTestFilePath));
+                }
+                AppDomainSetup setup = AppDomain.CurrentDomain.SetupInformation;
+                setup.ShadowCopyFiles = "true";
+                var sandbox = AppDomain.CreateDomain("Sandbox", null, setup, ps);
+                AppDomain.MonitoringIsEnabled = true;
+
+                TextReader inputFileReader = new StreamReader(inputFilePath);
+                string[] arguments = isChecker
+                    ? new string[] { inputFilePath, inputTestFilePath, outputTestFilePath }
+                    : new string[] { inputFilePath };
+
+                try
+                {
+                    var hookName = typeof(SandboxHook).FullName;
+                    ObjectHandle obj = sandbox.CreateInstanceFrom(assemblyFileName, hookName);
+                    if (obj == null) throw new ApplicationException("Unable to hook child application domain.");
+                    using (SandboxHook hook = (SandboxHook)obj.Unwrap())
+                    {
+                        hook.Capture(inputFileReader == null ? String.Empty : inputFileReader.ReadToEnd());
+                        inputFileReader.Close();
+
+                        var t =
+                            new Task(
+                                () =>
+                                    WaitForExit(sandbox, hook, executableFilePath, arguments, ref stdout, ref stderr,
+                                        ref exitCode, ref hasExited));
+                        t.Start();
+                        var t2 =
+                            new Task(
+                                () =>
+                                    CheckTimeLimit(sandbox, timeLimit, memoryLimit, ref tempUsedTime,
+                                        ref tempUsedMemory,
+                                        ref limitStderr, ref hasExited, ref hasLimitExceptions));
+                        t2.Start();
+
+                        Task.WaitAll(t, t2);
+                    }
+                }
+                finally
+                {
+                    if (!hasLimitExceptions)
+                    {
+                        AppDomain.Unload(sandbox);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errors += hasLimitExceptions ? "" : ex.Message + "\r\n";
+            }
+
+            output += stdout;
+            errors += hasLimitExceptions ? limitStderr : stderr;
+
+            usedTime = tempUsedTime;
+            usedMemory = tempUsedMemory;
+
+            if (File.Exists(executableFilePath))
+            {
+                try
+                {
+                    File.Delete(executableFilePath);
+                }
+                catch (Exception) { }
+            }
+
+            return hasExited && errors == "" && exitCode == 0;
+        }
+
+        private void WaitForExit(AppDomain sandbox, SandboxHook hook, string executableFilePath, string[] arguments,
+            ref string stdout, ref string stderr, ref int exitCode, ref bool hasExited)
+        {
+            try
+            {
+                exitCode = sandbox.ExecuteAssembly(executableFilePath, null, arguments);
+            }
+            catch (Exception ex)
+            {
+                stderr += ex.Message;
+            }
+            finally
+            {
+                var tempStderr = "";
+                hook.GetOutput(out stdout, out tempStderr);
+                stderr += tempStderr;
+                hasExited = true;
+            }
+        }
+
+        private void CheckTimeLimit(AppDomain sandbox, int timeLimit, int memoryLimit, ref double usedTime, ref double usedMemory, ref string stderr, ref bool hasExited, ref bool hasLimitExceptions)
+        {
+            while (!hasExited)
+            {
+                if (timeLimit <= sandbox.MonitoringTotalProcessorTime.TotalMilliseconds / 60)
+                {
+                    ThrowLimitException(sandbox, ref usedTime, ref usedMemory, ref stderr, ref hasLimitExceptions, "Time limit exceeded");
+                }
+
+                if (memoryLimit != 0 && memoryLimit <= (double)AppDomain.MonitoringSurvivedProcessMemorySize / (1024 * 1024))
+                {
+                    ThrowLimitException(sandbox, ref usedTime, ref usedMemory, ref stderr, ref hasLimitExceptions, "Memory limit exceeded");
+                }
+            }
+
+            usedTime = sandbox.MonitoringTotalProcessorTime.TotalMilliseconds / 60;
+            usedMemory = (double)AppDomain.MonitoringSurvivedProcessMemorySize / (1024 * 1024);
+        }
+
+        private void ThrowLimitException(AppDomain sandbox, ref double usedTime, ref double usedMemory, ref string stderr, ref bool hasLimitExceptions, string errorMessgage)
+        {
+            usedTime = sandbox.MonitoringTotalProcessorTime.TotalMilliseconds / 60;
+            usedMemory = (double)AppDomain.MonitoringSurvivedProcessMemorySize / (1024 * 1024);
+            stderr += errorMessgage;
+            hasLimitExceptions = true;
+            AppDomain.Unload(sandbox);
+            GC.Collect();
+            return;
+        }*/
     }
 }
