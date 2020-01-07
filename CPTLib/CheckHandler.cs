@@ -78,7 +78,7 @@ namespace CPTLib
         {
             var compileResult = languageHandler.Compile(solutionCodePath, ref errors);
             if (!compileResult)
-            {;
+            {
                 return ResultMessage.CE;
             }
             

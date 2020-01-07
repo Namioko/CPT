@@ -50,7 +50,7 @@ namespace CPT.Controllers
                 else
                 {
                     currentTestResult = CheckHandler.CheckWithChecker(solutionFileName, checkerFileName, currentInputTestFileName,
-                        currentTestOutputFileName, input.TimeLimit, input.MemoryLimit, ref usedTime, ref usedMemory, new CppHandler());
+                    currentTestOutputFileName, input.TimeLimit, input.MemoryLimit, ref usedTime, ref usedMemory, new CppHandler());
                 }
 
                 currentTestResult.Number = currentTestData.Number;
