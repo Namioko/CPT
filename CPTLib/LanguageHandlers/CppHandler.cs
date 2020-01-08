@@ -43,8 +43,10 @@ namespace CPTLib.LanguageHandlers
                 {
                     File.Delete(exe);
                 }
-                catch (Exception ex)
-                { }
+                catch (Exception)
+                {
+                    // ignored
+                }
             }
 
             Process proc = new Process();

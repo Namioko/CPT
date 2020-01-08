@@ -50,7 +50,7 @@ namespace CPT
                 Converters = new List<JsonConverter>()
             };
 
-            settings.Converters.Add(new StringEnumConverter { CamelCaseText = false });
+            settings.Converters.Add(new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() });
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             return settings;

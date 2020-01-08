@@ -36,8 +36,10 @@ namespace CPTLib.LanguageHandlers
                 {
                     File.Delete(exe);
                 }
-                catch (Exception ex)
-                { }
+                catch (Exception)
+                {
+                    // ignored
+                }
             }
 
             Process proc = new Process();
@@ -206,7 +208,7 @@ namespace CPTLib.LanguageHandlers
         {
             try
             {
-                exitCode = sandbox.ExecuteAssembly(executableFilePath, null, arguments);
+                exitCode = sandbox.ExecuteAssembly(executableFilePath, arguments);
             }
             catch (Exception ex)
             {
