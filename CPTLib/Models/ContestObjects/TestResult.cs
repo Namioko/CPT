@@ -1,6 +1,6 @@
 ﻿using CPTLib.Models.Enums;
 
-namespace CPTLib.Models
+namespace CPTLib.Models.ContestObjects
 {
     public class TestResult
     {

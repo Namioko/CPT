@@ -38,16 +38,23 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CheckHandler.cs" />
+    <Compile Include="ContestHandler.cs" />
     <Compile Include="LanguageHandlers\CppHandler.cs" />
     <Compile Include="LanguageHandlers\CSharpHandler.cs" />
     <Compile Include="LanguageHandlers\LanguageHandler.cs" />
     <Compile Include="LanguageHandlers\SanboxHook.cs" />
+    <Compile Include="Models\APIComponents\GeneratorInputData.cs" />
+    <Compile Include="Models\APIComponents\OutputData.cs" />
+    <Compile Include="Models\ContestObjects\CheckParameters\CheckParameters.cs" />
+    <Compile Include="Models\ContestObjects\CheckParameters\CheckParametersForGenerator.cs" />
+    <Compile Include="Models\ContestObjects\CheckParameters\CheckParametersForChecker.cs" />
+    <Compile Include="Models\ContestObjects\CheckParameters\CheckParametersForSolution.cs" />
+    <Compile Include="Models\ContestObjects\TestWithoutOutput.cs" />
     <Compile Include="Models\Enums\Language.cs" />
     <Compile Include="Models\Enums\ResultMessage.cs" />
-    <Compile Include="Models\InputData.cs" />
-    <Compile Include="Models\Test.cs" />
-    <Compile Include="Models\TestResult.cs" />
+    <Compile Include="Models\APIComponents\InputData.cs" />
+    <Compile Include="Models\ContestObjects\Test.cs" />
+    <Compile Include="Models\ContestObjects\TestResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

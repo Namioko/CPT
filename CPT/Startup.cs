@@ -32,8 +32,6 @@ namespace CPT
             {
                 SerializerSettings = Json()
             });
-
-            //formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/x-www-form-urlencoded"));
         }
 
         public static JsonSerializerSettings Json(TypeNameHandling typeNameHandling = TypeNameHandling.None)
@@ -50,7 +48,7 @@ namespace CPT
                 Converters = new List<JsonConverter>()
             };
 
-            settings.Converters.Add(new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() });
+            settings.Converters.Add(new StringEnumConverter { NamingStrategy = new DefaultNamingStrategy() });
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             return settings;

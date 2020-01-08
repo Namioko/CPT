@@ -6,6 +6,7 @@ using System.Security;
 using System.Security.Permissions;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using CPTLib.Models.ContestObjects.CheckParameters;
 
 namespace CPTLib.LanguageHandlers
 {
@@ -91,9 +92,17 @@ namespace CPTLib.LanguageHandlers
             return preErrors.Replace("\r\n\r\n", "");
         }
 
-        public override bool Execute(string executableFilePath, string inputFilePath, ref string output, ref string errors, int timeLimit,
-            int memoryLimit, ref double usedTime, ref double usedMemory, bool isChecker, string inputTestFilePath = "", string outputTestFilePath = "")
+        public override bool Execute(CheckParameters parameters, ref string output, ref string errors, ref double usedTime, 
+            ref double usedMemory, bool isChecker)
         {
+            var extension = Path.GetExtension(parameters.FileName);
+            var executableFilePath = parameters.FileName.Substring(0, parameters.FileName.Length - extension.Length) + ".exe";
+
+            var inputFilePath = isChecker
+                ? ((CheckParametersForChecker) parameters).SolutionOutputFileName
+                : parameters.InputTestFileName;
+
+            var timeLimit = parameters.TimeLimit;
             if (timeLimit == 0)
             {
                 timeLimit = 120; //2 mins
@@ -104,11 +113,23 @@ namespace CPTLib.LanguageHandlers
                 errors += "If you see this message, please contact administrator (ExErr1)";
                 return false;
             }
-
             if (!File.Exists(inputFilePath))
             {
                 errors += "If you see this message, please contact administrator (ExErr2)";
                 return false;
+            }
+            if (isChecker)
+            {
+                if (!File.Exists(parameters.InputTestFileName))
+                {
+                    errors += "If you see this message, please contact administrator (ExErr3)";
+                    return false;
+                }
+                if (!File.Exists(parameters.OutputTestFileName))
+                {
+                    errors += "If you see this message, please contact administrator (ExErr4)";
+                    return false;
+                }
             }
 
             bool hasExited = false;
@@ -132,8 +153,8 @@ namespace CPTLib.LanguageHandlers
                 ps.AddPermission(new FileIOPermission(FileIOPermissionAccess.Read, inputFilePath));
                 if (isChecker)
                 {
-                    ps.AddPermission(new FileIOPermission(FileIOPermissionAccess.Read, inputTestFilePath));
-                    ps.AddPermission(new FileIOPermission(FileIOPermissionAccess.Read, outputTestFilePath));
+                    ps.AddPermission(new FileIOPermission(FileIOPermissionAccess.Read, parameters.InputTestFileName));
+                    ps.AddPermission(new FileIOPermission(FileIOPermissionAccess.Read, parameters.OutputTestFileName));
                 }
                 AppDomainSetup setup = AppDomain.CurrentDomain.SetupInformation;
                 setup.ShadowCopyFiles = "true";
@@ -142,7 +163,7 @@ namespace CPTLib.LanguageHandlers
 
                 TextReader inputFileReader = new StreamReader(inputFilePath);
                 string[] arguments = isChecker
-                    ? new string[] { inputFilePath, inputTestFilePath, outputTestFilePath }
+                    ? new string[] { inputFilePath, parameters.InputTestFileName, parameters.OutputTestFileName }
                     : new string[] { inputFilePath };
                 
                 try
@@ -164,9 +185,8 @@ namespace CPTLib.LanguageHandlers
                         var t2 =
                             new Task(
                                 () =>
-                                    CheckTimeLimit(sandbox, timeLimit, memoryLimit, ref tempUsedTime,
-                                        ref tempUsedMemory,
-                                        ref limitStderr, ref hasExited, ref hasLimitExceptions));
+                                    CheckTimeLimit(sandbox, timeLimit, parameters.MemoryLimit, ref tempUsedTime,
+                                        ref tempUsedMemory, ref limitStderr, ref hasExited, ref hasLimitExceptions));
                         t2.Start();
 
                         Task.WaitAll(t, t2);
