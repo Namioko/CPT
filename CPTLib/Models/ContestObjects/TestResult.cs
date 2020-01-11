@@ -8,15 +8,15 @@ namespace CPTLib.Models.ContestObjects
         public ResultMessage Shortening { get; }
         public int Number { get; set; }
 
-        public double UsedTime { get; }
-        public double UsedMemory { get; }
+        public double Time { get; }
+        public double Memory { get; }
 
         public TestResult(string message, ResultMessage shortening, double usedTime, double usedMemory)
         {
             Message = message;
             Shortening = shortening;
-            UsedTime = usedTime;
-            UsedMemory = usedMemory;
+            Time = usedTime;
+            Memory = usedMemory;
         }
     }
 }
