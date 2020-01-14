@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CPTLib.ContestHandler" Collapsed="true">
+    <Position X="5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAIAAgAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>ContestHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPTLib.LanguageHandlers.CppHandler" Collapsed="true">
+    <Position X="0.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAQAAAAAAAAAABAAAAAAAAAAABACAEA=</HashCode>
+      <FileName>LanguageHandlers\CppHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPTLib.LanguageHandlers.CSharpHandler" Collapsed="true">
+    <Position X="2.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAQAAAAAAAAAABAAAAEAAAAAAAACAEA=</HashCode>
+      <FileName>LanguageHandlers\CSharpHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPTLib.LanguageHandlers.LanguageHandler" Collapsed="true">
+    <Position X="1.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>LanguageHandlers\LanguageHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPTLib.LanguageHandlers.SandboxHook" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EQAAIAAAACAAAAAAAABAAAAAAAAAAAAACBAAAAAAAAE=</HashCode>
+      <FileName>LanguageHandlers\SanboxHook.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CPTLib.Models.APIComponents.GeneratorInputData" Collapsed="true">
+    <Position X="2.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>NAAAAAAACAAQAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAQ=</HashCode>
+      <FileName>Models\APIComponents\GeneratorInputData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPTLib.Models.APIComponents.InputData" Collapsed="true">
+    <Position X="0.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>FAAAABAACAAAAAAAAAAgAAAAAAAAAAgAAAAAAAAAIAQ=</HashCode>
+      <FileName>Models\APIComponents\InputData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPTLib.Models.APIComponents.OutputData" Collapsed="true">
+    <Position X="5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\APIComponents\OutputData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPTLib.Models.ContestObjects.CheckParameters.CheckParameters" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAgAABAAAAAAgAAAAAAABAAAQ=</HashCode>
+      <FileName>Models\ContestObjects\CheckParameters\CheckParameters.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPTLib.Models.ContestObjects.CheckParameters.CheckParametersForChecker" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Models\ContestObjects\CheckParameters\CheckParametersForChecker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPTLib.Models.ContestObjects.CheckParameters.CheckParametersForGenerator" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ContestObjects\CheckParameters\CheckParametersForGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPTLib.Models.ContestObjects.CheckParameters.CheckParametersForSolution" Collapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ContestObjects\CheckParameters\CheckParametersForSolution.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPTLib.Models.ContestObjects.Test" Collapsed="true">
+    <Position X="0.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAIAAAAEAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ContestObjects\Test.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPTLib.Models.ContestObjects.TestResult" Collapsed="true">
+    <Position X="5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAAgAAIAAAAQA=</HashCode>
+      <FileName>Models\ContestObjects\TestResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPTLib.Models.ContestObjects.TestWithoutOutput" Collapsed="true">
+    <Position X="2.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAEAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ContestObjects\TestWithoutOutput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="CPTLib.Models.Enums.Language" Collapsed="true">
+    <Position X="1.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Models\Enums\Language.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="CPTLib.Models.Enums.ResultMessage" Collapsed="true">
+    <Position X="4" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABBAIIAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Models\Enums\ResultMessage.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
