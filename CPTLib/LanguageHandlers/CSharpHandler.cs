@@ -19,13 +19,13 @@ namespace CPTLib.LanguageHandlers
 
             if (extension == null || extension != ".cs")
             {
-                errors += "File error: Wrong extension";
+                errors += "Ошибка файла: неправильное расширение.";//"File error: Wrong extension.";
                 return false;
             }
 
             if (!File.Exists(path))
             {
-                errors += "File error: Wrong file path";
+                errors += "Ошибка файла: неправильный путь.";//"File error: Wrong file path.";
                 return false;
             }
 
@@ -110,24 +110,28 @@ namespace CPTLib.LanguageHandlers
 
             if (!File.Exists(executableFilePath))
             {
-                errors += "If you see this message, please contact administrator (ExErr1)";
+                //errors += "If you see this message, please contact administrator (ExErr1).";
+                errors += "Если Вы видите это сообщение, пожалуйста, свяжитесь с администратором (ExErr1).";
                 return false;
             }
             if (!File.Exists(inputFilePath))
             {
-                errors += "If you see this message, please contact administrator (ExErr2)";
+                //errors += "If you see this message, please contact administrator (ExErr2).";
+                errors += "Если Вы видите это сообщение, пожалуйста, свяжитесь с администратором (ExErr2).";
                 return false;
             }
             if (isChecker)
             {
                 if (!File.Exists(parameters.InputTestFileName))
                 {
-                    errors += "If you see this message, please contact administrator (ExErr3)";
+                    //errors += "If you see this message, please contact administrator (ExErr3).";
+                    errors += "Если Вы видите это сообщение, пожалуйста, свяжитесь с администратором (ExErr3).";
                     return false;
                 }
                 if (!File.Exists(parameters.OutputTestFileName))
                 {
-                    errors += "If you see this message, please contact administrator (ExErr4)";
+                    //errors += "If you see this message, please contact administrator (ExErr4).";
+                    errors += "Если Вы видите это сообщение, пожалуйста, свяжитесь с администратором (ExErr4).";
                     return false;
                 }
             }
@@ -170,7 +174,6 @@ namespace CPTLib.LanguageHandlers
                 {
                     var hookName = typeof (SandboxHook).FullName;
                     ObjectHandle obj = sandbox.CreateInstanceFrom(assemblyFileName, hookName);
-                    if (obj == null) throw new ApplicationException("Unable to hook child application domain.");
                     using (SandboxHook hook = (SandboxHook) obj.Unwrap())
                     {
                         hook.Capture(inputFileReader == null ? String.Empty : inputFileReader.ReadToEnd());
@@ -249,12 +252,12 @@ namespace CPTLib.LanguageHandlers
             {
                 if (timeLimit <= sandbox.MonitoringTotalProcessorTime.TotalMilliseconds / 1000)
                 {
-                    ThrowLimitException(sandbox, ref usedTime, ref usedMemory, ref stderr, ref hasLimitExceptions, "Time limit exceeded");
+                    ThrowLimitException(sandbox, ref usedTime, ref usedMemory, ref stderr, ref hasLimitExceptions, "Превышено ограничение по времени."/*"Time limit exceeded."*/);
                 }
 
                 if (memoryLimit != 0 && memoryLimit <= (double)AppDomain.MonitoringSurvivedProcessMemorySize / (1024 * 1024))
                 {
-                    ThrowLimitException(sandbox, ref usedTime, ref usedMemory, ref stderr, ref hasLimitExceptions, "Memory limit exceeded");
+                    ThrowLimitException(sandbox, ref usedTime, ref usedMemory, ref stderr, ref hasLimitExceptions, "Превышено ограничение по памяти."/*"Memory limit exceeded."*/);
                 }
             }
             

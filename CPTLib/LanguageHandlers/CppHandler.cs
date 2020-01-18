@@ -21,13 +21,13 @@ namespace CPTLib.LanguageHandlers
 
             if (extension == null || extension != ".cpp")
             {
-                errors += "File error: Wrong extension";
+                errors += "Ошибка файла: неправильное расширение.";//"File error: Wrong extension.";
                 return false;
             }
 
             if (!File.Exists(path))
             {
-                errors += "File error: Wrong file path";
+                errors += "Ошибка файла: неправильный путь.";//"File error: Wrong file path.";
                 return false;
             }
 
@@ -118,24 +118,28 @@ namespace CPTLib.LanguageHandlers
 
             if (!File.Exists(executableFilePath))
             {
-                errors += "If you see this message, please contact administrator (ExErr1)";
+                //errors += "If you see this message, please contact administrator (ExErr1).";
+                errors += "Если Вы видите это сообщение, пожалуйста, свяжитесь с администратором (ExErr1).";
                 return false;
             }
             if (!File.Exists(inputFilePath))
             {
-                errors += "If you see this message, please contact administrator (ExErr2)";
+                //errors += "If you see this message, please contact administrator (ExErr2).";
+                errors += "Если Вы видите это сообщение, пожалуйста, свяжитесь с администратором (ExErr2).";
                 return false;
             }
             if (isChecker)
             {
                 if (!File.Exists(parameters.InputTestFileName))
                 {
-                    errors += "If you see this message, please contact administrator (ExErr3)";
+                    //errors += "If you see this message, please contact administrator (ExErr3).";
+                    errors += "Если Вы видите это сообщение, пожалуйста, свяжитесь с администратором (ExErr3).";
                     return false;
                 }
                 if (!File.Exists(parameters.OutputTestFileName))
                 {
-                    errors += "If you see this message, please contact administrator (ExErr4)";
+                    //errors += "If you see this message, please contact administrator (ExErr4).";
+                    errors += "Если Вы видите это сообщение, пожалуйста, свяжитесь с администратором (ExErr4).";
                     return false;
                 }
             }
@@ -197,12 +201,12 @@ namespace CPTLib.LanguageHandlers
 
             if (timeLimit < tempUsedTime)
             {
-                errors += "Time limit (" + timeLimit + "s) exceeded\r\n";
+                errors += "Ограничение по времени превышено.\r\n";//"Time limit (" + timeLimit + "s) exceeded.\r\n";
             }
 
             if (parameters.MemoryLimit != 0 && parameters.MemoryLimit * 1024 < tempUsedMemory)
             {
-                errors += "Memory limit (" + parameters.MemoryLimit + "Kb) exceeded\r\n";
+                errors += "Ограничение по памяти превышено.\r\n";//"Memory limit (" + parameters.MemoryLimit + "Kb) exceeded.\r\n";
             }
 
             proc.Close();
@@ -258,7 +262,7 @@ namespace CPTLib.LanguageHandlers
 
                 if (timeLimit <= proc.TotalProcessorTime.TotalMilliseconds / 1000)
                 {
-                    stderr += "Time limit exceeded";
+                    stderr += "Ограничение по времени превышено.\r\n";//"Time limit exceeded.";
                     usedTime = proc.TotalProcessorTime.TotalMilliseconds / 1000;
                     usedMemory = (double)proc.WorkingSet64 / (1024 * 1024);
                     proc.Kill();
@@ -268,7 +272,7 @@ namespace CPTLib.LanguageHandlers
 
                 if (memoryLimit != 0 && memoryLimit <= (double)proc.WorkingSet64 / (1024 * 1024))
                 {
-                    stderr += "Memory limit exceeded";
+                    stderr += "Ограничение по памяти превышено.\r\n";//"Memory limit exceeded.";
                     usedTime = proc.TotalProcessorTime.TotalMilliseconds / 1000;
                     usedMemory = (double)proc.WorkingSet64 / (1024 * 1024);
                     proc.Kill();
