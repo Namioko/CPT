@@ -247,7 +247,7 @@ namespace CPTLib.LanguageHandlers
         {
             while (!hasExited)
             {
-                if (timeLimit <= sandbox.MonitoringTotalProcessorTime.TotalMilliseconds / 60)
+                if (timeLimit <= sandbox.MonitoringTotalProcessorTime.TotalMilliseconds / 1000)
                 {
                     ThrowLimitException(sandbox, ref usedTime, ref usedMemory, ref stderr, ref hasLimitExceptions, "Time limit exceeded");
                 }
@@ -258,13 +258,13 @@ namespace CPTLib.LanguageHandlers
                 }
             }
             
-            usedTime = sandbox.MonitoringTotalProcessorTime.TotalMilliseconds / 60;
+            usedTime = sandbox.MonitoringTotalProcessorTime.TotalMilliseconds / 1000;
             usedMemory = (double)AppDomain.MonitoringSurvivedProcessMemorySize / (1024 * 1024);
         }
 
         private void ThrowLimitException(AppDomain sandbox, ref double usedTime, ref double usedMemory, ref string stderr, ref bool hasLimitExceptions, string errorMessgage)
         {
-            usedTime = sandbox.MonitoringTotalProcessorTime.TotalMilliseconds / 60;
+            usedTime = sandbox.MonitoringTotalProcessorTime.TotalMilliseconds / 1000;
             usedMemory = (double)AppDomain.MonitoringSurvivedProcessMemorySize / (1024 * 1024);
             stderr += errorMessgage;
             hasLimitExceptions = true;

@@ -253,13 +253,13 @@ namespace CPTLib.LanguageHandlers
 
             while (!proc.HasExited)
             {
-                usedTime = proc.TotalProcessorTime.TotalMilliseconds / 60;
+                usedTime = proc.TotalProcessorTime.TotalMilliseconds / 1000;
                 usedMemory = (double)proc.WorkingSet64 / (1024 * 1024);
 
-                if (timeLimit <= proc.TotalProcessorTime.TotalMilliseconds / 60)
+                if (timeLimit <= proc.TotalProcessorTime.TotalMilliseconds / 1000)
                 {
                     stderr += "Time limit exceeded";
-                    usedTime = proc.TotalProcessorTime.TotalMilliseconds / 60;
+                    usedTime = proc.TotalProcessorTime.TotalMilliseconds / 1000;
                     usedMemory = (double)proc.WorkingSet64 / (1024 * 1024);
                     proc.Kill();
                     hasExited = true;
@@ -269,7 +269,7 @@ namespace CPTLib.LanguageHandlers
                 if (memoryLimit != 0 && memoryLimit <= (double)proc.WorkingSet64 / (1024 * 1024))
                 {
                     stderr += "Memory limit exceeded";
-                    usedTime = proc.TotalProcessorTime.TotalMilliseconds / 60;
+                    usedTime = proc.TotalProcessorTime.TotalMilliseconds / 1000;
                     usedMemory = (double)proc.WorkingSet64 / (1024 * 1024);
                     proc.Kill();
                     hasExited = true;
