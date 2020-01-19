@@ -67,9 +67,11 @@ namespace CPTLib
             sr.Close();
 
             //checker should return "true" or "false"
-            return checkerOutput.ToLower().Replace("\r\n", "") == "true" 
+            return checkerOutput.ToLower().Replace("\r\n", "") == "true"
                 ? new TestResult("", ResultMessage.OK, usedTime, usedMemory)
-                : new TestResult("Ожидаемый результат:\r\n" + testOutput + ".\r\n" + "Полученный результат:.\r\n" + output, ResultMessage.TE, usedTime, usedMemory)
+                : new TestResult(
+                    "Ожидаемый результат:\r\n" + testOutput + ".\r\n" + "Полученный результат:.\r\n" + output,
+                    ResultMessage.TE, usedTime, usedMemory);
         }
 
         public static string GenerateTestOutput(CheckParametersForGenerator parameters)
