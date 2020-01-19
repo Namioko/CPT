@@ -28,7 +28,7 @@ namespace CPTLib
             sr.Close();
 
             return string.Compare(output, testOutput, StringComparison.OrdinalIgnoreCase) != 0 
-                ? new TestResult("Expected:\n" + testOutput + "\n\n" + "Actual:\n" + output, ResultMessage.TE, usedTime, usedMemory) 
+                ? new TestResult("Ожидаемый результат:\r\n" + testOutput + ".\r\n" + "Полученный результат:.\r\n" + output, ResultMessage.TE, usedTime, usedMemory) 
                 : new TestResult("", ResultMessage.OK, usedTime, usedMemory);
         }
 
@@ -43,7 +43,7 @@ namespace CPTLib
             var compilationAndExecutionResult = CompileAndExecute(parameters, ref output, ref tempErrors, ref usedTime, ref usedMemory);
             if (compilationAndExecutionResult == ResultMessage.CE || compilationAndExecutionResult == ResultMessage.EE)
             {
-                return new TestResult("solution:\r\n" + tempErrors, compilationAndExecutionResult, usedTime, usedMemory);
+                return new TestResult("решение:\r\n" + tempErrors, compilationAndExecutionResult, usedTime, usedMemory);
             }
             
             var outputFilePath = Path.GetDirectoryName(parameters.FileName) + @"\output.txt";
@@ -59,7 +59,7 @@ namespace CPTLib
                 ref usedMemory, true);
             if (checkerCompilationAndExecutionResult == ResultMessage.CE || checkerCompilationAndExecutionResult == ResultMessage.EE)
             {
-                return new TestResult("checker:\r\n" + tempErrors, checkerCompilationAndExecutionResult, usedTime, usedMemory);
+                return new TestResult("чекер:\r\n" + tempErrors, checkerCompilationAndExecutionResult, usedTime, usedMemory);
             }
 
             var sr = new StreamReader(parameters.OutputTestFileName);
@@ -68,8 +68,8 @@ namespace CPTLib
 
             //checker should return "true" or "false"
             return checkerOutput.ToLower().Replace("\r\n", "") == "true" 
-                ? new TestResult("", ResultMessage.OK, usedTime, usedMemory) 
-                : new TestResult("Expected:\n" + testOutput + "\n\n" + "Actual:\n" + output, ResultMessage.TE, usedTime, usedMemory);
+                ? new TestResult("", ResultMessage.OK, usedTime, usedMemory)
+                : new TestResult("Ожидаемый результат:\r\n" + testOutput + ".\r\n" + "Полученный результат:.\r\n" + output, ResultMessage.TE, usedTime, usedMemory)
         }
 
         public static string GenerateTestOutput(CheckParametersForGenerator parameters)
@@ -83,7 +83,7 @@ namespace CPTLib
             var compilationAndExecutionResult = CompileAndExecute(parameters, ref output, ref tempErrors, ref usedTime, ref usedMemory);
             if (compilationAndExecutionResult == ResultMessage.CE || compilationAndExecutionResult == ResultMessage.EE)
             {
-                return "Errors: " + tempErrors;
+                return "Ошибки: " + tempErrors;
             }
 
             var sw = new StreamWriter(parameters.OutputTestFileName);
